@@ -1,0 +1,63 @@
+const COLORS = {
+    black1C1A1A: '#1C1A1A',
+    black101010: '#101010',
+    black161923: '#161923',
+    black303033: '#303033',
+    blue0093F5: '#0093F5',
+    whiteFFFFFF: '#FFFFFF',
+    whiteD5D5D5: '#D5D5D5',
+    whiteFFFFFF_21: 'rgba(255,255,255,0.21)',
+    whiteFFFFFF_55: 'rgba(255,255,255,0.55)',
+    whiteFFFFFF_47: 'rgba(255,255,255,0.47)',
+    whiteFFFFFF_30: 'rgba(255,255,255,0.30)',
+    black1A1A1A: '#1A1A1A',
+    black000000_54: 'rgba(0,0,0,0.54)',
+    black000000_35: 'rgba(0,0,0,0.35)',
+    black000000_38: 'rgba(0,0,0,0.38)',
+    black000000_30: 'rgba(0,0,0,0.30)',
+    black000000_40: 'rgba(0,0,0,0.40)',
+
+    black000000_33: 'rgba(0,0,0,0.33)',
+    black000000_59: 'rgba(0,0,0,0.59)',
+    black000000_20: 'rgba(0,0,0,0.20)',
+    black272727_30: 'rgba(39,39,39,0.30)',
+    black000000: '#000000',
+    grey505050_07: 'rgba(80,80,80,0.07)',
+    grey464646_40: 'rgba(70,70,70,0.40)',
+    grey707070: '#707070',
+    grey303033: '#303033',
+    grey939393: '#939393',
+    greyA9A9A9: '#A9A9A9',
+    greyBBBBBB: '#BBBBBB',
+    grey585858: '#585858',
+    grey99999F: '#99999F',
+    greyA3A3A3: '#A3A3A3',
+    grey707070_52: 'rgba(112,112,112,0.52)',
+    grey707070_24: 'rgba(112,112,112,0.24)',
+    grey707070_44: 'rgba(112,112,112,0.44)',
+    grey707070_43: 'rgba(112,112,112,0.43)',
+    grey707070_40: 'rgba(112,112,112,0.40)',
+    grey707070_51: 'rgba(112,112,112,0.51)',
+    grey1C1939: "#1C1939",
+    grey444444: "#444444",
+    greyA1A1A1: "#A1A1A1",
+    grey979797: '#979797',
+    grey63697B: "#63697B",
+    red: '#F50000',
+    green074B08: "#074B08",
+    green0DC147: "#0DC147",
+
+    green14CCEF: '#14CCEF',
+
+    orangeFF0000: '#FF0000',
+    redE22641: '#E22641',
+
+    purpleA90DC1: '#A90DC1',
+
+
+    lightPinkAD8DB4: '#AD8DB4',
+
+    lightBlueEAECF2: '#EAECF2',
+
+}
+export default COLORS;
