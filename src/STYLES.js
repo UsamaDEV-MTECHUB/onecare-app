@@ -107,7 +107,7 @@ const STYLES = StyleSheet.create({
 
     },
     fontSize9_grey444444_Arial_Regular: {
-        fontSize: 9,
+        fontSize: 14,
         fontFamily: 'Arial',
         fontWeight: '400',
         color: COLORS.grey444444,

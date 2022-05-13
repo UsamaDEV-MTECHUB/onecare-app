@@ -47,7 +47,7 @@ const ChatWithAdmin = ({navigation}) => {
           setDis('flex');
         }}
         style={{display: dis}}
-        source={{uri: 'https://mtechub.com/sample/onecare_backend/chat.php'}}
+        source={{uri: 'http://hs-texh.com/onecareBackend/chat.php'}}
       />
     </SafeAreaView>
   );

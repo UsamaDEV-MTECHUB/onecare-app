@@ -1,11 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {Checkbox, TouchableRipple, ActivityIndicator} from 'react-native-paper';
+import {
+  Checkbox,
+  TouchableRipple,
+  ActivityIndicator,
+  Dialog,
+  Paragraph,
+  Button,
+  TextInput,
+  Modal,
+  RadioButton,
+  Headline,
+} from 'react-native-paper';
 import {
   Text,
   View,
   TouchableOpacity,
-  TextInput,
   ScrollView,
   StyleSheet,
   SafeAreaView,
@@ -26,7 +36,7 @@ const CompleteProfile = ({route, navigation}) => {
   const [stateData, setStateData] = useState({
     fullName: '',
     email: '',
-    gender: '',
+    gender: 'Select Gender',
   });
 
   const [stateAsyncLong, setStateAsyncLong] = useState();
@@ -38,6 +48,16 @@ const CompleteProfile = ({route, navigation}) => {
   const [stateIsValidEmail, setStateIsValidEmail] = useState(true);
   const [stateIsValidGender, setStateIsValidGender] = useState(true);
 
+  // dialog
+  const [visible, setVisible] = useState(false);
+
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  // dialog end
+  // radio
+  const [checked, setChecked] = useState('male');
+
+  // radio end
   const handleValidEmail = val => {
     let reg = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w\w+)+$/;
     if (reg.test(val)) {
@@ -49,25 +69,24 @@ const CompleteProfile = ({route, navigation}) => {
     }
   };
 
-  const storeData = async (value) => {
+  const storeData = async value => {
     try {
-      const jsonValue = JSON.stringify(value)
-      await AsyncStorage.setItem('userData', jsonValue)
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem('userData', jsonValue);
     } catch (e) {
       // saving error
     }
-  }
+  };
 
-  
-const getData = async () => {
+  const getData = async () => {
     try {
-      const jsonValue = await AsyncStorage.getItem('userData')
-       console.log(JSON.parse(jsonValue))
-    } catch(e) {
+      const jsonValue = await AsyncStorage.getItem('userData');
+      console.log(JSON.parse(jsonValue));
+    } catch (e) {
       // error reading value
     }
-  }
-  
+  };
+
   const Continue = () => {
     if (!handleValidEmail(stateData.email)) {
       setStateIsValidEmail(false);
@@ -109,11 +128,9 @@ const getData = async () => {
       })
         .then(response => response.json())
         .then(json => {
-          
-          
-          storeData (json);
+          storeData(json);
           getData();
-            navigation.navigate('Welcome', {routeName: json[0].name});
+          navigation.navigate('Welcome', {routeName: json.name});
 
           setStateActivityIndicator(false);
         })
@@ -122,9 +139,7 @@ const getData = async () => {
         });
     }
   };
-  useEffect(() => {
-
-  }, []);
+  useEffect(() => {}, []);
   return (
     <SafeAreaView
       style={{
@@ -133,60 +148,179 @@ const getData = async () => {
         paddingHorizontal: '5%',
         backgroundColor: COLORS.whiteFFFFFF,
       }}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            marginTop: '7%', // backgroundColor: 'red',
-            width: '50%',
-            alignItems: 'center',
-            alignSelf: 'center',
-          }}>
+      <Modal
+        visible={visible}
+        onDismiss={hideModal}
+        contentContainerStyle={{
+          backgroundColor: 'white',
+          // paddingVertical: 60,
+          paddingHorizontal: 30,
+          height: '38%',
+          marginHorizontal: '7%',
+          borderRadius: 10,
+        }}
+        style={{
+          zIndex: 9999,
+        }}>
+        <View>
+          <Headline
+            style={{
+              paddingVertical: 5,
+            }}>
+            Select Gender
+          </Headline>
+          <TouchableRipple
+            onPress={() => {
+              setChecked('male');
+              setStateData({
+                ...stateData,
+                gender: 'male',
+              });
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginVertical: 10,
+              }}>
+              <RadioButton
+                color={COLORS.lightPinkAD8DB4}
+                value="Male"
+                status={checked === 'male' ? 'checked' : 'unchecked'}
+                onPress={() => setChecked('male')}
+              />
+              <Paragraph>Male</Paragraph>
+            </View>
+          </TouchableRipple>
+
+          <TouchableRipple
+            onPress={() => {
+              setChecked('female');
+              setStateData({
+                ...stateData,
+                gender: 'female',
+              });
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginVertical: 10,
+           
+              }}>
+              <RadioButton
+                color={COLORS.lightPinkAD8DB4}
+                value="female"
+                status={checked === 'female' ? 'checked' : 'unchecked'}
+                onPress={() => setChecked('female')}
+              />
+
+              <Paragraph>Female</Paragraph>
+            </View>
+          </TouchableRipple>
           <Text
-            style={[
-              STYLES.fontSize34_lightPinkAD8DB4_Arial_Bold,
-              {
-                textAlign: 'center',
-              },
-            ]}>
-            Complete Profile
+            style={{
+              marginTop: 30,
+              backgroundColor: '#AD8DB4',
+              marginBottom: 10,
+              textAlign: 'center',
+              padding: 10,
+              color: 'white',
+              borderRadius: 10,
+            }}
+            mode="contained"
+            onPress={()=>{
+              setStateData({
+                ...stateData,
+                gender: checked,
+              });
+              
+              hideModal()
+            }
+            }>
+            Submit
           </Text>
         </View>
+      </Modal>
+      <View
+        style={{
+          marginTop: '7%', // backgroundColor: 'red',
+          width: '50%',
+          alignItems: 'center',
+          alignSelf: 'center',
+          zIndex: -9,
+        }}>
+        <Text
+          style={[
+            STYLES.fontSize34_lightPinkAD8DB4_Arial_Bold,
+            {
+              textAlign: 'center',
+            },
+          ]}>
+          Complete Profile
+        </Text>
+      </View>
 
-        <View style={{marginTop: '15%'}}>
-          <TextInput1
-            text="Full Name"
-            onChangeText={text => {
-              setStateIsValidFullName(true);
-              setStateData({
-                ...stateData,
-                fullName: text,
-              });
-            }}
-          />
-          {stateIsValidFullName == false ? (
-            <Text style={{color: 'red'}}>Enter Valid Full Name</Text>
-          ) : null}
-        </View>
+      <View style={{marginTop: '15%', zIndex: -9}}>
+        <TextInput
+          label="Full Name"
+          activeUnderlineColor="#AD8DB4"
+          mode="flat"
+          style={{backgroundColor: 'white'}}
+          onChangeText={text => {
+            setStateIsValidFullName(true);
+            setStateData({
+              ...stateData,
+              fullName: text,
+            });
+          }}
+        />
+        {stateIsValidFullName == false ? (
+          <Text style={{color: 'red'}}>Enter Valid Full Name</Text>
+        ) : null}
+      </View>
 
-        <View style={{marginTop: '10%'}}>
-          <TextInput1
-            text="Email"
-            onChangeText={text => {
-              setStateIsValidEmail(true);
-              setStateData({
-                ...stateData,
-                email: text,
-              });
-            }}
-          />
-          {stateIsValidEmail == false ? (
-            <Text style={{color: 'red'}}>Enter Valid Email</Text>
-          ) : null}
-        </View>
+      <View style={{marginTop: '5%', zIndex: -9}}>
+        <TextInput
+          label="Email"
+          activeUnderlineColor="#AD8DB4"
+          mode="flat"
+          style={{backgroundColor: 'white'}}
+          onChangeText={text => {
+            setStateIsValidEmail(true);
+            setStateData({
+              ...stateData,
+              email: text,
+            });
+          }}
+        />
+        {stateIsValidEmail == false ? (
+          <Text style={{color: 'red'}}>Enter Valid Email</Text>
+        ) : null}
+      </View>
 
-        <View style={{marginTop: '10%'}}>
-          <TextInput1
-            text="Gender"
+      <View style={{marginTop: '5%', zIndex: -9}}>
+        <TouchableRipple onPress={showModal}>
+          <Text
+            style={{
+              paddingVertical: 20,
+              paddingHorizontal: 10,
+              borderBottomWidth: 1,
+              color: 'grey',
+              fontSize: 15,
+              borderBottomColor: 'lightgrey',
+            }}>
+            {stateData.gender}
+          </Text>
+        </TouchableRipple>
+        {/* <TextInput
+          label="Gender"
+            activeUnderlineColor="#AD8DB4"
+            mode="flat"
+            disabled
+            value='select Gender'
+
+            style={{backgroundColor:'white',borderBottom:1}}
             onChangeText={text => {
               setStateIsValidGender(true);
               setStateData({
@@ -194,32 +328,32 @@ const getData = async () => {
                 gender: text,
               });
             }}
+          /> */}
+
+        {stateIsValidGender == false ? (
+          <Text style={{color: 'red'}}>Enter Valid Gender</Text>
+        ) : null}
+      </View>
+      <View
+        style={{
+          marginTop: '65%', // backgroundColor: 'red',
+          //justifyContent: 'flex-end'
+        }}>
+        {stateActivityIndicator ? (
+          <ActivityIndicator
+            animating={stateActivityIndicator}
+            color={COLORS.lightPinkAD8DB4}
           />
-          {stateIsValidGender == false ? (
-            <Text style={{color: 'red'}}>Enter Valid Gender</Text>
-          ) : null}
-        </View>
-        <View
-          style={{
-            marginTop: '80%', // backgroundColor: 'red',
-            //justifyContent: 'flex-end'
-          }}>
-          {stateActivityIndicator ? (
-            <ActivityIndicator
-              animating={stateActivityIndicator}
-              color={COLORS.lightPinkAD8DB4}
-            />
-          ) : (
-            <Button1
-              text="Continue"
-              onPress={() => {
-                Continue();
-              }}
-            />
-          )}
-          {/* </View> */}
-        </View>
-      </ScrollView>
+        ) : (
+          <Button1
+            text="Continue"
+            onPress={() => {
+              Continue();
+            }}
+          />
+        )}
+        {/* </View> */}
+      </View>
     </SafeAreaView>
   );
 };

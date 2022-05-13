@@ -1,4 +1,4 @@
-const BaseUrl = "https://mtechub.com/sample/onecare_backend/apis/";
+const BaseUrl = "http://hs-texh.com/onecareBackend/apis/";
 
 
 export default BaseUrl;

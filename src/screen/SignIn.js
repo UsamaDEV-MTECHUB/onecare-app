@@ -87,8 +87,8 @@ const SignIn = ({navigation}) => {
       } else {
         // console.log(JSON.parse(jsonValue));
             x=JSON.parse(jsonValue);
-            console.log(x[0].name)
-        navigation.navigate('Welcome', {routeName: x[0].name});    }
+            console.log(x.name)
+        navigation.navigate('Welcome', {routeName: x.name});    }
     } catch (e) {
       // error reading value
     }
@@ -130,11 +130,7 @@ const SignIn = ({navigation}) => {
             <Text style={STYLES.fontSize38_lightPinkAD8DB4_Arial_Bold}>
               Welcome
             </Text>
-            <View style={{alignItems: 'center'}}>
-              <Text style={STYLES.fontSize18_grey585858_Arial_Regular}>
-                Sign in to Continue
-              </Text>
-            </View>
+            
           </View>
 
           <View
@@ -167,9 +163,9 @@ const SignIn = ({navigation}) => {
             {stateIsValidChecked == false ? (
               <Text style={{color: 'red'}}>kindly check checkbox</Text>
             ) : null}
-            <View style={{marginTop: '5%'}}>
+            <View style={{marginTop: '5%',zIndex:9999}}>
               <Button1
-                text="Signin with Mobile Number"
+                text="Continue with Mobile Number"
                 onPress={() => {
                   Continue();
                 }}

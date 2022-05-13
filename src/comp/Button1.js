@@ -12,14 +12,14 @@ import Svgs from '../utilities/svgs/Svgs';
 const Button1 = (props) => {
     return (
         <TouchableRipple style={{
-
-
+            zIndex:-9,
             alignItems: 'center',
             paddingHorizontal: '7%',
             paddingVertical: '5%',
             justifyContent: 'center',
             borderRadius: 16,
             backgroundColor: COLORS.lightPinkAD8DB4,
+            
 
         }} onPress={props.onPress}>
             <Text style={STYLES.fontSize15_whiteFFFFFF_Arial_Bold}>
