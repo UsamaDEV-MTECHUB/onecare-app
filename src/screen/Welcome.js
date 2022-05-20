@@ -23,6 +23,7 @@ import RNRestart from 'react-native-restart';
 
 const Welcome = ({route, navigation}) => {
     const [statePhoneNo, setStatePhoneNo] = useState('');
+    const [username, setUsername] = useState('');
   const {routeName} = route.params;
   const dialCall = () => {
     
@@ -42,7 +43,7 @@ const Welcome = ({route, navigation}) => {
 
       const valuex = await AsyncStorage.getItem('userData');
       var x = JSON.parse(valuex);
-      //  console.log((x.email))
+       setUsername(x.name);
       setStatePhoneNo(x.phoneno);
     } catch (e) {
       // error reading value
@@ -98,7 +99,9 @@ const Welcome = ({route, navigation}) => {
             marginTop: '5%',
           }}
           onPress={() => {
-            navigation.navigate('ChatWithAdmin');
+            // navigation.navigate('ChatWithAdmin');
+            // navigation.navigate('Chat');
+            navigation.navigate('Chat', {username:username,phoneno:statePhoneNo});
           }}>
           <View
             style={{

@@ -17,6 +17,7 @@ import Verification from './src/screen/Verification';
 import Welcome from './src/screen/Welcome';
 import ChatWithAdmin from './src/screen/ChatWithAdmin';
 import CompleteProfile from './src/screen/CompleteProfile';
+import Chat from './src/screen/Chat';
 
 import FirstScreen from './src/screen/FirstScreen';
 
@@ -72,6 +73,13 @@ const App = props => {
         <Stack.Screen
           name="CompleteProfile"
           component={CompleteProfile}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Chat"
+          component={Chat}
           options={{
             headerShown: false,
           }}

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "255746375081",
+    "firebase_url": "https://my-test-project-3b397-default-rtdb.firebaseio.com",
+    "project_id": "my-test-project-3b397",
+    "storage_bucket": "my-test-project-3b397.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255746375081:android:5c329246ffa941487c58b8",
+        "android_client_info": {
+          "package_name": "com.onecarehealth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "255746375081-8uggfqnrgh45vjsha1j00t92m37irbrj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdTWrHLzJXvKFdRRPTW7jfxvSU9N8wwDA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "255746375081-8uggfqnrgh45vjsha1j00t92m37irbrj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -20,6 +20,8 @@ target 'OneCareHealth' do
 
   pod 'react-native-restart', :path => '../node_modules/react-native-restart'
 
+  pod 'RNFBApp', :path => '../node_modules/@react-native-firebase/app'
+
   target 'OneCareHealthTests' do
     inherit! :complete
     # Pods for testing
