@@ -36,133 +36,116 @@ const Chat = ({route, navigation}) => {
   const [messages, setMessages] = useState([]);
   const [readDataCount, setreadDataCount] = useState(0);
   const [sms, setSms] = useState('');
+  const [p, setP] = useState('');
   const flatListRef = React.useRef();
-  const renderItem = ({item}) => (
+  const renderItem = ({item,index}) => (
+  
     <>
-
-    {item.from ==phoneno || item.to ==phoneno ? item.from == 'admin' ? (
-        <View
-          style={{
-            backgroundColor: 'lightgrey',
-            width: '60%',
-            marginLeft: 10,
-            padding: 10,
-            borderBottomEndRadius: 10,
-            borderTopEndRadius: 10,
-            borderTopLeftRadius: 0,
-            borderBottomLeftRadius: 10,
-            marginVertical: 5,
-            zIndex: -999,
-          }}>
-          <Text
+      {
+     
+      item.from == phoneno || item.to == phoneno ? (
+        item.from == 'admin'  ? (
+          <View
             style={{
-              fontSize: 15,
+              backgroundColor: 'lightgrey',
+              width: '60%',
+              marginLeft: 10,
+              padding: 10,
+              borderBottomEndRadius: 10,
+              borderTopEndRadius: 10,
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: 10,
+              marginVertical: 5,
+              zIndex: -999,
+            }}>
+            <Text
+              style={{
+                fontSize: 15,
+                color: 'black',
+              }}>
+              {item.message
+              }
+            </Text>
+            <Badge
+              style={{
+                alignSelf: 'flex-start',
+                marginTop: 5,
+              }}>
+              Admin
+            </Badge>
+          </View>
+        ) : (
+          <View
+            style={{
+              backgroundColor: 'lightgrey',
               color: 'black',
+              width: '60%',
+              marginRight: 10,
+              padding: 10,
+              borderBottomLeftRadius: 10,
+              borderTopEndRadius: 10,
+              borderTopLeftRadius: 10,
+              marginVertical: 5,
+              alignSelf: 'flex-end',
+              zIndex: -999,
             }}>
-            {item.message}
-          </Text>
-          <Badge
-            style={{
-              alignSelf: 'flex-start',
-              marginTop: 5,
-            }}>
-            Admin
-          </Badge>
-        </View>
-      ) : (
-        <View
-          style={{
-            backgroundColor: 'lightgrey',
-            color: 'black',
-            width: '60%',
-            marginRight: 10,
-            padding: 10,
-            borderBottomLeftRadius: 10,
-            borderTopEndRadius: 10,
-            borderTopLeftRadius: 10,
-            marginVertical: 5,
-            alignSelf: 'flex-end',
-            zIndex: -999,
-          }}>
-          <Text
-            style={{
-              fontSize: 15,
-              color: 'black',
-            }}>
-            {item.message}
-          </Text>
-        </View>
-      ) : <Text></Text> }
-      
+            <Text
+              style={{
+                fontSize: 15,
+                color: 'black',
+              }}>
+              {item.message}
+            </Text>
+          </View>
+        )
+      ) : null}
     </>
+    
   );
   const addData = () => {
     if (sms.length == 0) {
       console.log('emplt fild');
     } else {
       const id = firebase.database().ref('/users').push().key;
-      
-      
-      const d = new Date();
-            let text = d.toString();   
 
-            setMessages(messages => [...messages, {
-              id: text,
-            from: phoneno,
-            to:'admin',
-            message: sms,
-              }])
-  
-            setSms('');
+      const d = new Date();
+      let text = d.toString();
+
+      setMessages(messages => [
+        ...messages,
+        {
+          id: text,
+          from: phoneno,
+          to: 'admin',
+          message: sms,
+        },
+      ]);
+
+      setSms('');
       firebase
         .database()
         .ref('messages/' + id)
         .set({
           id: text,
           from: phoneno,
-          to:'admin',
+          to: 'admin',
           message: sms,
         })
         .then(() => {
-          
-          console.log('message sent')
+          // setMessages('')
+          console.log('message sent');
         });
     }
   };
-  const readData = async () => {
-    await firebase
-      .database()
-      .ref('messages/')
-      .orderByChild("id") 
-      .once('value')
-      .then(snapshot => {
-        // ([snapshot.val()])
-        if (snapshot.val() == null) {
-          console.log('no data');
-        } else {
-          // setMessages(Object.values(snapshot.val()));
-          // var x= Object.values(snapshot.val());
-          // console.log(x.sort((a,b) => a.id - b.id))
-          var x= Object.values(snapshot.val());
-          
-          snapshot.forEach((product) => {
-            setMessages(messages => [...messages, {
-              id: product.val().id,
-              from: product.val().from,
-              to: product.val().to,
-              message: product.val().message,
-              }])
-            
-          })
-          
-          console.log(messages)
-        }
+  const readData =  () => {
     
-        setreadDataCount(1);
-      });
+     
   };
 
   useEffect(() => {
+   if(readDataCount == 0){
+     setreadDataCount(1)
+   }
     // firebase credentails
     const firebaseConfig = {
       apiKey: 'AIzaSyCXtui0cbGJcLJhOFjRAUaj1SdSGXOpNgA',
@@ -174,63 +157,123 @@ const Chat = ({route, navigation}) => {
       appId: '1:255746375081:web:9dfb1d1e85298a977c58b8',
     };
     // firebase credentails end
+   
     // read data from firebase
-    if (readDataCount >= 1) {
+    if (readDataCount == 1) {
       console.log('data stop reading');
     } else {
-      readData();
-    }
-    // read data from firebase end
-    // checking changes in db
-    
-    // checking changes in db end
-    // check if database has a user or not
-
-    firebase.database()
-  .ref('userlist/')
-  .once('value')
-  .then(snapshot => {
-    var x= Object.values(snapshot.val());
-    // console.log(x);
-    if (x.some(e => e.phoneno === phoneno)) {
-      console.log('user has sms');
-    }
-    else {
       
       firebase
       .database()
-      .ref('userlist/'+phoneno+'/')
-      .set({
-        username:username,
-        phoneno:phoneno,
-      })
-      .then(() => {
-        console.log('new use rregistered');
-      });
-    }
-    firebase
-      .database()
       .ref('messages/')
-      .orderByChild("id") 
-      .on('value', snapshot => {
-        
+      .orderByChild('id')
+      // .limitToLast()
+      .once('value')
+      .then(snapshot => {
+        // ([snapshot.val()])
         if (snapshot.val() == null) {
           console.log('no data');
         } else {
-          // setMessages(Object.values(snapshot.val()));
-          var x= Object.values(snapshot.val());
           
-          snapshot.forEach((product) => {
-           
+          var x = Object.values(snapshot.val());
+         
+          snapshot.forEach(product => {
             
-          })
           
-          console.log(messages)
+           
+            setMessages(messages => [
+              ...messages,
+              {
+                id: product.val().id,
+                from: product.val().from,
+                to: product.val().to,
+                message: product.val().message,
+              },
+            ]);
+           
+           
+          });
           
         }
+
+        
       });
-  });
+    
+    }
+    // read data from firebase end
+    // checking changes in db
+    // firebase
+    //   .database()
+    //   .ref('userlist/'+phoneno+'/')
+    //   .set({
+
+    //     username:username,
+    //     phoneno:phoneno,
+    //   })
+    // checking changes in db end
+    // check if database has a user or not
+
+    firebase
+      .database()
+      .ref('userlist/')
+      .once('value')
+      .then(snapshot => {
+        var x = Object.values(snapshot.val());
+        // console.log(x);
+        if (x.some(e => e.phoneno === phoneno)) {
+          console.log('user has sms');
+        } else {
+          firebase
+            .database()
+            .ref('userlist/' + phoneno + '/')
+            .set({
+              username: username,
+              phoneno: phoneno,
+            })
+            .then(() => {
+              console.log('new use rregistered');
+            });
+        }
+        firebase
+          .database()
+          .ref('messages/')
+          .orderByChild('id')
+          .limitToLast(1)
+          .on('value', snapshot => {
+            if (snapshot.val() == null) {
+              console.log('no data');
+            } else {
+              // setMessages(Object.values(snapshot.val()));
+              var x = Object.values(snapshot.val());
+              // function to send sms to firebase
+              
+                snapshot.forEach(product => {
+                  if (
+                    product.val().from == 'admin' &&
+                    product.val().to == phoneno 
+                  ) { 
+                    setMessages(messages => [
+                      ...messages,
+                      {
+                        id: product.val().id,
+                        from: product.val().from,
+                        to: product.val().to,
+                        message: product.val().message,
+                      },
+                    ]);
+                   
+                  }
+                });
+              
+              
+
+              // console.log(messages)
+            }
+          });
+      });
     // check if database has a user or not end
+   
+          
   }, []);
 
   const onSend = useCallback((messages = []) => {
@@ -274,7 +317,7 @@ const Chat = ({route, navigation}) => {
         style={{
           flexDirection: 'row-reverse',
           justifyContent: 'flex-start',
-          alignItems:'flex-end',
+          alignItems: 'flex-end',
           backgroundColor: '#ffff',
           height: '83%',
           width: '100%',
@@ -286,7 +329,7 @@ const Chat = ({route, navigation}) => {
         }}
         contentContainerStyle={{
           justifyContent: 'flex-start',
-          alignItems:'flex-start'
+          alignItems: 'flex-start',
         }}>
         {/* <>
         {messages.map((message) => {
@@ -303,12 +346,13 @@ const Chat = ({route, navigation}) => {
           inverted={false}
           data={messages}
           ref={flatListRef}
-          onContentSizeChange={() => flatListRef.current.scrollToEnd({ animated: true })}
+          onContentSizeChange={() =>
+            flatListRef.current.scrollToEnd({animated: true})
+          }
           renderItem={renderItem}
           // keyExtractor={item => item.id}
           keyExtractor={(item, index) => `${index}`}
           // keyExtractor={(item, index) => index}
-        
         />
       </View>
       <View

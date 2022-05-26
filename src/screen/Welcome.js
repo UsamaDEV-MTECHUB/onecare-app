@@ -20,10 +20,11 @@ import Button1 from '../comp/Button1';
 import {NavigationContainer} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNRestart from 'react-native-restart';
-
+import BaseUrl from '../route/BaseUrl';
 const Welcome = ({route, navigation}) => {
     const [statePhoneNo, setStatePhoneNo] = useState('');
     const [username, setUsername] = useState('');
+    const [address, setAddress] = useState('');
   const {routeName} = route.params;
   const dialCall = () => {
     
@@ -42,6 +43,9 @@ const Welcome = ({route, navigation}) => {
   
 
       const valuex = await AsyncStorage.getItem('userData');
+      const value2 = await AsyncStorage.getItem('asyncAddress');
+      setAddress(value2)
+      console.log(address)
       var x = JSON.parse(valuex);
        setUsername(x.name);
       setStatePhoneNo(x.phoneno);
@@ -62,9 +66,33 @@ const Welcome = ({route, navigation}) => {
     }
 
     navigation.navigate('MobileNumber');
-  };
+  }; 
+  
+
   useEffect(() => {
     getData();
+    // update location
+  fetch(BaseUrl + 'customer/updateLocation.php', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      phoneno: statePhoneNo,
+      location:address,
+    }),
+  })
+    .then(response => response.json())
+    .then(json => {
+      
+      console.log(json);
+     
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  // update location end
   });
   return (
     <SafeAreaView

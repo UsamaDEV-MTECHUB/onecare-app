@@ -16,7 +16,7 @@ const MobileNumber = ({navigation}) => {
   const phoneNoTextInput = useRef();
   const [countryCode, setCountryCode] = useState('');
 
-  const [stateFirstCountryCode, setStateFirstCountryCode] = useState('+92');
+  const [stateFirstCountryCode, setStateFirstCountryCode] = useState('92');
 
   const [statePackageCountryCodeShow, setStatePackageCountryCodeShow] =
     useState(false);
